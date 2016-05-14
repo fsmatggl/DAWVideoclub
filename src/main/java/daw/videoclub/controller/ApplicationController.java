@@ -1,4 +1,4 @@
-package application;
+package daw.videoclub.controller;
 
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -9,7 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class ApplicationController {
 	
 	@Secured({"ROLE_USER", "ROLE_ADMIN"})
-	@RequestMapping
+	@RequestMapping("/")
 	public ModelAndView home(){
 		return new ModelAndView("home");
 	}

@@ -1,4 +1,4 @@
-package security;
+package daw.videoclub;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -16,8 +16,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		http.authorizeRequests().antMatchers("/admin").permitAll();
 		http.authorizeRequests().antMatchers("/login").permitAll();
-		http.authorizeRequests().anyRequest().authenticated();
 		
 		http.formLogin()
 		.loginPage("/login")

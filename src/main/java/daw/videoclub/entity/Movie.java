@@ -1,4 +1,4 @@
-package movies;
+package daw.videoclub.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
