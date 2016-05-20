@@ -11,5 +11,9 @@
 		<label>Title:</label><input type="text" name="title" /><br />
 		<input type="submit" value="Search" /> <br />
 	</form>
+	<div th:if="${admin}==true">
+		<h3>User Management</h3>
+		<a href="#" th:href="@{/management/users}"> User management menu</a>
+	</div>
 </body>
 </html>

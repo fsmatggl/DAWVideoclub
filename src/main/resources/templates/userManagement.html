@@ -2,15 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<title>Video Club</title>
-	<link rel="stylesheet" href="css/retro.css" />
+	<link rel="stylesheet" href="../css/retro.css" />
 </head>
 <body>
-	<p th:if="${param.error}">Invalid credentials</p>
-	<p th:if="${param.logout}">Logged out</p>
-	<form th:action="@{/login}" method="post">
-		<label>User Name:</label><input type="text" name="username" /><br />
-		<label>Password:</label> <input type="password" name="password" /><br />
-		<input type="submit" value="Sign In" /> <br />
-	</form>
+	<h2>User Management</h2>
+	<a href="#" th:href="@{/}">Back to home</a>
 </body>
 </html>
