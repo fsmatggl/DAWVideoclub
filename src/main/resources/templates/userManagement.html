@@ -1,11 +1,51 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<title>Video Club</title>
-	<link rel="stylesheet" href="../css/retro.css" />
+<title>Video Club</title>
+<link rel="stylesheet" th:href="@{/css/retro.css}" />
 </head>
 <body>
 	<h2>User Management</h2>
-	<a href="#" th:href="@{/}">Back to home</a>
+	<p th:if="${deleted_username}"
+		th:text="'Username ' + ${deleted_username} + ' has been removed'"></p>
+	<h3>Search user</h3>
+	<form th:action="@{/management/users/search}" method="post">
+		<label>User name:</label><input type="text" name="username" /><br />
+		<input type="submit" value="Search" /> <br />
+	</form>
+	<div th:switch="${found}">
+		<div th:case="false"> 
+			<h4>Search result</h4>
+			<p th:text="'No results where found'"></p>
+			<br />
+			<a href="#" th:href="@{/management/users}">Back</a>
+		</div>
+		
+		<div th:case="true">
+			<h4>Search result</h4>
+			<p th:text="${user.id} + '    ' + ${user.username} + '    ' + ${user.email}"></p>
+			<a href="#" th:href="@{/management/users/modify(id=${user.id})}" th:text="Modify"></a>
+			<a href="#"	th:href="@{/management/users/delete(id=${user.id})}" th:text="Delete"></a>
+			<br />
+			<a href="#" th:href="@{/management/users}">Back</a>
+		</div>
+	</div>
+	<div th:if="${users}">
+		<h3>User list</h3>
+		<table>
+			<tr th:each="user : ${users}">
+				<td th:text="${user.id}"></td>
+				<td th:text="${user.username}"></td>
+				<td th:text="${user.email}"></td>
+				<td><a href="#"
+					th:href="@{/management/users/modify(id=${user.id})}"
+					th:text="Modify"></a></td>
+				<td><a href="#"
+					th:href="@{/management/users/delete(id=${user.id})}"
+					th:text="Delete"></a></td>
+			</tr>
+		</table>
+		<a href="#" th:href="@{/}">Back to home</a>
+	</div>
 </body>
 </html>
