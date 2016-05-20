@@ -1,4 +1,4 @@
-package daw.videoclub.entity;
+package daw.videoclub.model;
 
 import java.util.List;
 
@@ -21,6 +21,7 @@ public class User {
 	@Column(unique=true)
 	private String username;
 	private String password;
+	@Column(unique=true)
 	private String email;
 	
 	@ElementCollection(fetch = FetchType.EAGER)

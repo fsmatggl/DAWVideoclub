@@ -12,8 +12,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import daw.videoclub.entity.User;
-import daw.videoclub.persistence.UserRepository;
+import daw.videoclub.model.User;
+import daw.videoclub.repository.UserRepository;
 
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {

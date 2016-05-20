@@ -5,6 +5,11 @@
 	<link rel="stylesheet" href="css/retro.css" />
 </head>
 <body>
-	<h1>Videoclub</h1>
+	<h1>Video club</h1>
+	<h3>Search</h3>
+	<form th:action="@{/search}" method="post">
+		<label>Title:</label><input type="text" name="title" /><br />
+		<input type="submit" value="Search" /> <br />
+	</form>
 </body>
 </html>
