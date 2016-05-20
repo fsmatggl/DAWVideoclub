@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Video Club</title>
+<link rel="stylesheet" th:href="@{/css/retro.css}" />
+</head>
+<body>
+	<h2>User Management</h2>
+	<h3>Search user</h3>
+	<form th:action="@{/management/users/search}" method="post">
+		<label>User name:</label><input type="text" name="username" /><br />
+		<input type="submit" value="Search" /> <br />
+	</form>
+		
+	<div th:switch="${found}">
+		<div th:case="false"> 
+			<h4>Search result</h4>
+			<p th:text="'No results where found'"></p>
+		</div>
+			
+		<div th:case="true">
+			<h4>Search result</h4>
+			<p th:text="${user.id} + '    ' + ${user.username} + '    ' + ${user.email}"></p>
+			<a href="#" th:href="@{/management/users/modify/(id=${user.id})}" th:text="'Modify'"></a>
+			<a href="#"	th:href="@{/management/users/delete/(id=${user.id})}" th:text="'Delete'"></a>
+		</div>
+	</div>
+	<br />
+	<a href="#" th:href="@{/management/users}" th:text="'Back to User Management'"></a>		
+</body>
+</html>

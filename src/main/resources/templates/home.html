@@ -6,6 +6,7 @@
 </head>
 <body>
 	<h1>Video club</h1>
+	<a href="#" th:href="@{/login?logout}"> Logout</a>
 	<h3>Search</h3>
 	<form th:action="@{/search}" method="post">
 		<label>Title:</label><input type="text" name="title" /><br />

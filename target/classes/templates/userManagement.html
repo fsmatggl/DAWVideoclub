@@ -6,46 +6,14 @@
 </head>
 <body>
 	<h2>User Management</h2>
-	<p th:if="${deleted_username}"
-		th:text="'Username ' + ${deleted_username} + ' has been removed'"></p>
-	<h3>Search user</h3>
-	<form th:action="@{/management/users/search}" method="post">
-		<label>User name:</label><input type="text" name="username" /><br />
-		<input type="submit" value="Search" /> <br />
-	</form>
-	<div th:switch="${found}">
-		<div th:case="false"> 
-			<h4>Search result</h4>
-			<p th:text="'No results where found'"></p>
-			<br />
-			<a href="#" th:href="@{/management/users}">Back</a>
-		</div>
-		
-		<div th:case="true">
-			<h4>Search result</h4>
-			<p th:text="${user.id} + '    ' + ${user.username} + '    ' + ${user.email}"></p>
-			<a href="#" th:href="@{/management/users/modify(id=${user.id})}" th:text="Modify"></a>
-			<a href="#"	th:href="@{/management/users/delete(id=${user.id})}" th:text="Delete"></a>
-			<br />
-			<a href="#" th:href="@{/management/users}">Back</a>
-		</div>
-	</div>
-	<div th:if="${users}">
-		<h3>User list</h3>
-		<table>
-			<tr th:each="user : ${users}">
-				<td th:text="${user.id}"></td>
-				<td th:text="${user.username}"></td>
-				<td th:text="${user.email}"></td>
-				<td><a href="#"
-					th:href="@{/management/users/modify(id=${user.id})}"
-					th:text="Modify"></a></td>
-				<td><a href="#"
-					th:href="@{/management/users/delete(id=${user.id})}"
-					th:text="Delete"></a></td>
-			</tr>
-		</table>
-		<a href="#" th:href="@{/}">Back to home</a>
-	</div>
+	<a href="#" th:href="@{/management/users/search}" th:text="'Search'"></a>
+	<a href="#" th:href="@{/management/users/list}" th:text="'List all users'"></a>
+	<a href="#" th:href="@{/management/users/new}" th:text="'Create user'"></a>
+	<br />
+	<a href="#" th:href="@{/}" th:text="'Back to Home'"></a>
+	
+	<p th:if="${modified_user}" th:text="'User ' + ${modified_user} + ' has been modified'"></p>
+	<p th:if="${modified_user}" th:text="'User ' + ${modified_user} + ' couldn't be modified. Invalid role'"></p>
+	<p th:if="${deleted_user}" th:text="'User ' + ${deleted_user} + ' has been removed'"></p>
 </body>
 </html>

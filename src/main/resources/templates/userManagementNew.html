@@ -1,26 +1,24 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<title>Video Club</title>
-	<link rel="stylesheet" th:href="@{/css/retro.css}" />
+<title>Video Club</title>
+<link rel="stylesheet" th:href="@{/css/retro.css}" />
 </head>
 <body>
 	<h2>User Management</h2>
-	<h3>Search user</h3>
-	<form th:action="@{/search}" method="post">
-		<label>Title:</label><input type="text" name="title" /><br />
-		<input type="submit" value="Search" /> <br />
+	<h3>User creation</h3>
+	<form th:action="@{/management/users/new}" method="post">
+		<label>User name:</label><input type="text" name="username" /><br />
+		<label>Password:</label><input type="password" name="password" /><br />
+		<label>Email</label><input type="text" name="email" /><br />
+		<label>Role</label><input type="text" name="role" /><br />
+		<input type="submit" value="Create user" /> <br />
 	</form>
-	<h3>User list</h3>
-	<table>
-		<tr th:each="user : ${users}">
-			<td th:text="${user.id} "></td>
-			<td th:text="${user.username} "></td>
-			<td th:text="${user.email} "></td>	
-			<td><a href="#" th:href="@{/management/users/modify(id=${user.id})}" th:text="Modify"></a>	
-			<td><a href="#" th:href="@{/management/users/delete(id=${user.id})}" th:text="Delete"></a>	
-		</tr>
-	</table>
-	<a href="#" th:href="@{/management/users}">Back to management</a>
+	
+	<p th:if="${created}" th:text="'User ' + ${created} + ' has been created'"></p>
+	<p th:if="${in_use}" th:text="'User ' + ${in_use} + ' is already in use'"></p>
+	
+	<a href="#" th:href="@{/management/users}" th:text="'Back to User Management'"></a>		
+		
 </body>
 </html>

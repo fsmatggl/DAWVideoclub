@@ -22,9 +22,12 @@ public class ApplicationController {
 	@Secured({"ROLE_USER", "ROLE_ADMIN"})
 	@RequestMapping("/")
 	public ModelAndView home(Principal principal){
+		boolean admin = false;
 		User u = userRepository.findByUsername(principal.getName());
-		List<GrantedAuthority> roles = u.getRoles();
-		boolean admin = roles.contains( new SimpleGrantedAuthority("ROLE_ADMIN"));
+		if(u!=null){
+			List<GrantedAuthority> roles = u.getRoles();
+			admin = roles.contains( new SimpleGrantedAuthority("ROLE_ADMIN"));
+		}
 		return new ModelAndView("home").addObject("admin", admin);
 	}
 }

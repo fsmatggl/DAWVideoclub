@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Video Club</title>
+<link rel="stylesheet" th:href="@{/css/retro.css}" />
+</head>
+<body>
+	<h2>User Management</h2>
+	<h3 th:text="'User modification: ' + ${username}"></h3>
+	<form th:action="@{/management/users/modify/{id}(id=${id})}" method="post">
+		<label>Password:</label><input type="password" name="password" /><br />
+		<label>Email</label><input type="text" name="email" /><br />
+		<label>Role</label><input type="text" name="role" /><br />
+		<input type="submit" value="Modify user" /> <br />
+	</form>
+	
+		
+	<p th:if="${not_found}" th:text="That user doesn't exist"></p>
+	
+	<a href="#" th:href="@{/management/users}" th:text="'Back to User Management'"></a>	
+</body>
+</html>

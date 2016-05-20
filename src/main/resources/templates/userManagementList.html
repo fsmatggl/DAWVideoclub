@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Video Club</title>
+<link rel="stylesheet" th:href="@{/css/retro.css}" />
+</head>
+<body>
+	<h2>User Management</h2>
+	<h3>User list</h3>
+	<div th:switch="${none}">
+		<div th:case="false"> 
+			<table th:if="${users}">
+				<tr th:each="user : ${users}">
+					<td th:text="${user.id}"></td>
+					<td th:text="${user.username}"></td>
+					<td th:text="${user.email}"></td>
+					<td><a href="#"
+						th:href="@{/management/users/modify(id=${user.id})}"
+						th:text="'Modify'"></a></td>
+					<td><a href="#"
+						th:href="@{/management/users/delete(id=${user.id})}"
+						th:text="'Delete'"></a></td>
+				</tr>
+			</table>
+		</div>
+		<div th:case="true">
+			<p th:text="'There are no users'"></p>
+		</div>
+	</div>
+	
+	<a href="#" th:href="@{/management/users}" th:text="'Back to User Management'"></a>	
+</body>
+</html>
