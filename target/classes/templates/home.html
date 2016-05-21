@@ -6,6 +6,7 @@
 </head>
 <body>
 	<h1>Video club</h1>
+	<p th:text="'Welcome '+${username}"></p>
 	<a href="#" th:href="@{/login?logout}"> Logout</a>
 	<h3>Registered Movies</h3>
 	<table th:if="${movies}">

@@ -76,7 +76,7 @@ public class UserController {
 			roles.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
 			roles.add(new SimpleGrantedAuthority("ROLE_USER"));
 		}
-		else if(roles.equals("user")){
+		else if(role.equals("user")){
 			roles.add(new SimpleGrantedAuthority("ROLE_USER"));
 		}
 		else

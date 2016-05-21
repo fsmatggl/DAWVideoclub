@@ -33,6 +33,6 @@ public class ApplicationController {
 			admin = roles.contains( new SimpleGrantedAuthority("ROLE_ADMIN"));
 		}
 		List<Movie> movies = (List<Movie>) movieRepository.findAll();
-		return new ModelAndView("home").addObject("admin", admin).addObject("movies", movies);
+		return new ModelAndView("home").addObject("username", u.getUsername()).addObject("admin", admin).addObject("movies", movies);
 	}
 }
