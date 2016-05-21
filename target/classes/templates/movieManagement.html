@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<title>Video Club</title>
-	<link rel="stylesheet" th:href="@{/css/retro.css}" />
+<title>Video Club</title>
+<link rel="stylesheet" th:href="@{/css/retro.css}" />
 </head>
 <body>
-	<p th:if="${param.error}">Invalid credentials</p>
-	<p th:if="${param.logout}">Logged out</p>
-	<form th:action="@{/login}" method="post">
-		<label>User Name:</label><input type="text" name="username" /><br />
-		<label>Password:</label> <input type="password" name="password" /><br />
-		<input type="submit" value="Sign In" /> <br />
-	</form>
+	<h2>Movie Management</h2>
+	<a href="#" th:href="@{/management/movies/search}" th:text="'Search'"></a>
+	<a href="#" th:href="@{/management/movies/list}" th:text="'List all movies'"></a>
+	<a href="#" th:href="@{/management/movies/new}" th:text="'Add new movie'"></a>
+	<br />
+	<a href="#" th:href="@{/}" th:text="'Back to Home'"></a>
+	
+	<p th:if="${modified_movie}" th:text="'Movie ' + ${modified_movie} + ' has been modified'"></p>
+	<p th:if="${deleted_movie}" th:text="'Movie ' + ${deleted_movie} + ' has been removed'"></p>
 </body>
 </html>

@@ -13,7 +13,6 @@
 	<a href="#" th:href="@{/}" th:text="'Back to Home'"></a>
 	
 	<p th:if="${modified_user}" th:text="'User ' + ${modified_user} + ' has been modified'"></p>
-	<p th:if="${modified_user}" th:text="'User ' + ${modified_user} + ' couldn't be modified. Invalid role'"></p>
 	<p th:if="${deleted_user}" th:text="'User ' + ${deleted_user} + ' has been removed'"></p>
 </body>
 </html>

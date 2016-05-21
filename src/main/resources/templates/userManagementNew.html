@@ -16,6 +16,7 @@
 	</form>
 	
 	<p th:if="${created}" th:text="'User ' + ${created} + ' has been created'"></p>
+	<p th:if="${invalid_role}" th:text="'User ' + ${invalid_role} + ' could not be created. Invalid role'"></p>
 	<p th:if="${in_use}" th:text="'User ' + ${in_use} + ' is already in use'"></p>
 	
 	<a href="#" th:href="@{/management/users}" th:text="'Back to User Management'"></a>		

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Video Club</title>
+<link rel="stylesheet" th:href="@{/css/retro.css}" />
+</head>
+<body>
+	<h2>Movie Management</h2>
+	<h3>Movie creation</h3>
+	<form th:action="@{/management/movies/new}" method="post">
+		<label>Title:</label><input type="text" name="name" /><br />
+		<label>Content Url:</label><input type="text" name="url" /><br />
+		<label>Description:</label><input type="text" name="description" /><br />
+		<label>Year:</label><input type="text" name="year" /><br />
+		<label>Director:</label><input type="text" name="director" /><br />
+		<label>Cast:</label><input type="text" name="cast" /><br />
+		<label>Front:</label><input type="text" name="front" /><br />
+		<label>Rating:</label><input type="text" name="rating" /><br />
+		<input type="submit" value="Add movie" /> <br />
+	</form>
+	
+	<p th:if="${no_nameOrUrl}" th:text="'Name and URL fields have to be filled'"></p>
+	<p th:if="${created}" th:text="'Movie ' + ${created} + ' has been added'"></p>
+	<p th:if="${in_use}" th:text="'Movie ' + ${in_use} + ' already exists'"></p>
+	
+	<a href="#" th:href="@{/management/movies}" th:text="'Back to Movie Management'"></a>		
+</body>
+</html>

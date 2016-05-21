@@ -76,12 +76,13 @@ public class UserController {
 			roles.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
 			roles.add(new SimpleGrantedAuthority("ROLE_USER"));
 		}
-		else{
+		else if(roles.equals("user")){
 			roles.add(new SimpleGrantedAuthority("ROLE_USER"));
 		}
+		else
+			return new ModelAndView("userManagementNew").addObject("invalid_role", username);
 		
 		userRepository.save(new User(username, password, email, roles));
-		
 		return new ModelAndView("userManagementNew").addObject("created", username);
 	}
 	
@@ -105,7 +106,7 @@ public class UserController {
 		if(u==null)
 			return new ModelAndView("userManagementModify").addObject("not_found");
 		
-		if(password==null && email==null && role==null)
+		if(password.equals("") && email.equals("") && role.equals(""))
 			return new ModelAndView("userManagementModify").addObject("username", u.getUsername());
 			
 		if(!password.equals(""))
@@ -122,7 +123,7 @@ public class UserController {
 				roles.add(new SimpleGrantedAuthority("ROLE_USER"));
 			}
 			else
-				return new ModelAndView("userManagementModify").addObject("invalid_role");
+				return new ModelAndView("userManagementModify").addObject("invalid_role", u.getUsername()).addObject("username", u.getUsername());
 			u.setRoles(roles);
 		}
 

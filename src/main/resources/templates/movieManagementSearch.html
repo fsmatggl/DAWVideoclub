@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Video Club</title>
+<link rel="stylesheet" th:href="@{/css/retro.css}" />
+</head>
+<body>
+	<h2>Movie Management</h2>
+	<h3>Search movie</h3>
+	<form th:action="@{/management/movies/search}" method="post">
+		<label>Movie title:</label><input type="text" name="name" /><br />
+		<input type="submit" value="Search" /> <br />
+	</form>
+		
+	<div th:switch="${found}">
+		<div th:case="false"> 
+			<h4>Search result</h4>
+			<p th:text="'No results where found'"></p>
+		</div>
+			
+		<div th:case="true">
+			<h4>Search result</h4>
+			<p th:text="${movie.id} + '    ' + ${movie.year} + '    ' + ${movie.url}"></p>
+			<a href="#" th:href="@{/management/movies/modify/(id=${movie.id})}" th:text="'Modify'"></a>
+			<a href="#"	th:href="@{/management/movies/delete/(id=${movie.id})}" th:text="'Delete'"></a>
+		</div>
+	</div>
+	<br />
+	<a href="#" th:href="@{/management/movies}" th:text="'Back to Movie Management'"></a>		
+</body>
+</html>

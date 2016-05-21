@@ -16,6 +16,7 @@
 	
 		
 	<p th:if="${not_found}" th:text="That user doesn't exist"></p>
+	<p th:if="${invalid_role}" th:text="'User ' + ${invalid_role} + ' could not be modified. Invalid role'"></p>
 	
 	<a href="#" th:href="@{/management/users}" th:text="'Back to User Management'"></a>	
 </body>

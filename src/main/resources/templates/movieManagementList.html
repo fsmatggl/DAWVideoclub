@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Video Club</title>
+<link rel="stylesheet" th:href="@{/css/retro.css}" />
+</head>
+<body>
+	<h2>Movie Management</h2>
+	<h3>Movie list</h3>
+	<div th:switch="${none}">
+		<div th:case="false"> 
+			<table th:if="${movies}">
+				<tr th:each="movie : ${movies}">
+					<td th:text="${movie.id}"></td>
+					<td th:text="${movie.name}"></td>
+					<td th:text="${movie.url}"></td>
+					<td><a href="#"
+						th:href="@{/management/movies/modify(id=${movie.id})}"
+						th:text="'Modify'"></a></td>
+					<td><a href="#"
+						th:href="@{/management/movies/delete(id=${movie.id})}"
+						th:text="'Delete'"></a></td>
+				</tr>
+			</table>
+		</div>
+		<div th:case="true">
+			<p th:text="'There are no movies'"></p>
+		</div>
+	</div>
+	
+	<a href="#" th:href="@{/management/movies}" th:text="'Back to Movie Management'"></a>	
+</body>
+</html>

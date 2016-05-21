@@ -13,7 +13,7 @@ public class Movie {
 
 	private String name;
 	private String url;
-	private String desription;
+	private String description;
 	private String year;
 	private String director;
 	private String cast;
@@ -29,13 +29,13 @@ public class Movie {
 		this.url = url;
 	}
 
-	public Movie(String name, String url, String desription,
+	public Movie(String name, String url, String description,
 			String year, String director, String cast, String front,
 			String rating) {
 		super();
 		this.name = name;
 		this.url = url;
-		this.desription = desription;
+		this.description = description;
 		this.year = year;
 		this.director = director;
 		this.cast = cast;
@@ -68,11 +68,11 @@ public class Movie {
 	}
 
 	public String getDesription() {
-		return desription;
+		return description;
 	}
 
-	public void setDesription(String desription) {
-		this.desription = desription;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public String getYear() {
