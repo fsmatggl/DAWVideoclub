@@ -13,7 +13,7 @@
 				<tr th:each="movie : ${movies}">
 					<td th:text="${movie.id}"></td>
 					<td th:text="${movie.name}"></td>
-					<td th:text="${movie.url}"></td>
+					<td th:text="${movie.year}"></td>
 					<td><a href="#"
 						th:href="@{/management/movies/modify(id=${movie.id})}"
 						th:text="'Modify'"></a></td>

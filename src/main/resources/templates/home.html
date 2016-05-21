@@ -1,16 +1,26 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<title>Video Club</title>
-	<link rel="stylesheet" th:href="@{/css/retro.css}" />
+<title>Video Club</title>
+<link rel="stylesheet" th:href="@{/css/retro.css}" />
 </head>
 <body>
 	<h1>Video club</h1>
 	<a href="#" th:href="@{/login?logout}"> Logout</a>
+	<h3>Registered Movies</h3>
+	<table th:if="${movies}">
+		<tr th:each="movie : ${movies}">
+			<td th:text="${movie.name}"></td>
+			<td th:text="${movie.year}"></td>
+			<td><a href="#"
+				th:href="@{/watch(id=${movie.id})}"
+				th:text="'Watch'"></a></td>
+		</tr>
+	</table>
 	<h3>Search</h3>
 	<form th:action="@{/search}" method="post">
-		<label>Title:</label><input type="text" name="title" /><br />
-		<input type="submit" value="Search" /> <br />
+		<label>Title:</label><input type="text" name="title" /><br /> <input
+			type="submit" value="Search" /> <br />
 	</form>
 	<div th:if="${admin}==true">
 		<h3>User Management</h3>

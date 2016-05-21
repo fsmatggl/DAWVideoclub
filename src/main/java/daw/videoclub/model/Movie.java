@@ -1,6 +1,10 @@
 package daw.videoclub.model;
 
+import java.util.List;
+
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,7 +20,8 @@ public class Movie {
 	private String description;
 	private String year;
 	private String director;
-	private String cast;
+	@ElementCollection(fetch = FetchType.EAGER)
+	private List<String> cast;
 	private String front;
 	private String rating;
 
@@ -26,11 +31,11 @@ public class Movie {
 	public Movie(String name, String url) {
 		super();
 		this.name = name;
-		this.url = url;
+		this.url = "<iframe width=\"560\" height=\"315\" src=\"" + url + "\" frameborder=\"0\" allowfullscreen></iframe>";
 	}
 
 	public Movie(String name, String url, String description,
-			String year, String director, String cast, String front,
+			String year, String director, List<String> cast, String front,
 			String rating) {
 		super();
 		this.name = name;
@@ -64,10 +69,10 @@ public class Movie {
 	}
 
 	public void setUrl(String url) {
-		this.url = url;
+		this.url = "<iframe width=\"560\" height=\"315\" src=\"" + url + "\" frameborder=\"0\" allowfullscreen></iframe>";
 	}
 
-	public String getDesription() {
+	public String getDescription() {
 		return description;
 	}
 
@@ -91,11 +96,11 @@ public class Movie {
 		this.director = director;
 	}
 
-	public String getCast() {
+	public List<String> getCast() {
 		return cast;
 	}
 
-	public void setCast(String cast) {
+	public void setCast(List<String> cast) {
 		this.cast = cast;
 	}
 

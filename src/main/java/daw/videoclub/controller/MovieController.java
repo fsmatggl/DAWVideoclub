@@ -1,5 +1,6 @@
 package daw.videoclub.controller;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import retrofit.RestAdapter;
 import daw.videoclub.model.Movie;
 import daw.videoclub.repository.MovieRepository;
+import daw.videoclub.rest.model.OMDbMovie;
+import daw.videoclub.rest.model.TrailersAPITrailer;
+import daw.videoclub.rest.services.OMDbService;
+import daw.videoclub.rest.services.TrailersAPIService;
 
 @Controller
 public class MovieController {
@@ -22,16 +28,49 @@ public class MovieController {
 	@RequestMapping("/search")
 	public ModelAndView search(@RequestParam String title){
 		Movie m = movieRepository.findByName(title);
+		
 		if(m==null)
 			return new ModelAndView("search").addObject("found", false);
-		else
+		else{
+			RestAdapter omdbAdapter = new RestAdapter.Builder().setEndpoint("http://www.omdbapi.com/").build();
+			OMDbService omdbService = omdbAdapter.create(OMDbService.class);
+			OMDbMovie omdbMovie = omdbService.getOMDbMovie(title);
+			
+			RestAdapter trailersAPIAdapter = new RestAdapter.Builder().setEndpoint("http://trailersapi.com/").build();
+			TrailersAPIService trailersAPIService = trailersAPIAdapter.create(TrailersAPIService.class);
+			List<TrailersAPITrailer> trailers = trailersAPIService.getTrailers(title);
+			
+			if(m.getDescription()==null)
+				m.setDescription(omdbMovie.getPlot());
+			if(m.getYear()==null)
+				m.setYear(omdbMovie.getYear());
+			if(m.getDirector()==null)
+				m.setDirector(omdbMovie.getDirector());
+			if(m.getCast()==null){
+				List<String> castList = new LinkedList<String>();
+				for(String s :omdbMovie.getActors().split(",")){
+					castList.add(s);
+				}
+				m.setCast(castList);
+			}
+			if(m.getFront()==null)
+				m.setFront(omdbMovie.getPoster());
+			if(m.getRating()==null)
+				m.setRating(omdbMovie.getImdbRating());
+			if(m.getUrl()==null)
+				m.setUrl(trailers.get(0).getCode());
+			
+			movieRepository.save(m);
+			
 			return new ModelAndView("search").addObject("found", true).addObject("movie", m);
+		}
 	}
 	
 	@Secured({"ROLE_USER", "ROLE_ADMIN"})
 	@RequestMapping("/watch")
-	public ModelAndView movie(@RequestParam long id){
-		return new ModelAndView("watch");
+	public ModelAndView movie(@RequestParam Long id){
+		Movie m = movieRepository.findOne(id);	
+		return new ModelAndView("watch").addObject("movie", m);
 	}
 	
 	@Secured("ROLE_ADMIN")
@@ -93,8 +132,13 @@ public class MovieController {
 			m.setYear(year);
 		if(!director.equals(""))
 			m.setDirector(director);
-		if(!cast.equals(""))
-			m.setCast(cast);
+		if(!cast.equals("")){
+			List<String> castList = new LinkedList<String>();
+			for(String s :cast.split(",")){
+				castList.add(s);
+			}
+			m.setCast(castList);
+		}
 		if(!front.equals(""))
 			m.setFront(front);
 		if(!rating.equals(""))
@@ -140,8 +184,13 @@ public class MovieController {
 			m.setYear(year);
 		if(!director.equals(""))
 			m.setDirector(director);
-		if(!cast.equals(""))
-			m.setCast(cast);
+		if(!cast.equals("")){
+			List<String> castList = new LinkedList<String>();
+			for(String s :cast.split(",")){
+				castList.add(s);
+			}
+			m.setCast(castList);
+		}
 		if(!front.equals(""))
 			m.setFront(front);
 		if(!rating.equals(""))

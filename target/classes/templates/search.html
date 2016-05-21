@@ -9,9 +9,16 @@
 	<div th:switch="${found}">
 		<p th:case="false">No results where found</p>
 		<div th:case="true">
+			<img th:src="${movie.front}"/>
 			<p th:text="'Title: ' + ${movie.name}"></p>
+			<p th:text="'Year: ' + ${movie.year}"></p>
+			<p th:text="'Director: ' + ${movie.director}"></p>
+			<p th:text="'Rating: ' + ${movie.rating}"></p>
+			<p th:text="'Description: ' + ${movie.description}"></p>
+			<a href="#" th:href="@{/watch(id=${movie.id})}" th:text="Watch"></a>
 		</div>
 	</div>
+	<br />
 	<a href="#" th:href="@{/}">Back to home</a>
 </body>
 </html>
