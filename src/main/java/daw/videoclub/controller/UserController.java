@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,6 +23,13 @@ import daw.videoclub.repository.UserRepository;
 public class UserController {
 	@Autowired
 	private UserRepository userRepository;
+	
+	@PostConstruct
+	private void loadAdmin() {
+		GrantedAuthority[] roles = { new SimpleGrantedAuthority("ROLE_USER"), new SimpleGrantedAuthority("ROLE_ADMIN") }; 
+		User admin = new User("admin","admin","admin@videoclub.com",  Arrays.asList(roles));
+		userRepository.save(admin);
+	}
 	
 	@RequestMapping("/login")
 	public ModelAndView login() {
@@ -76,10 +85,10 @@ public class UserController {
 			roles.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
 			roles.add(new SimpleGrantedAuthority("ROLE_USER"));
 		}
-		else if(role.equals("user")){
+		if(role.equals("user")){
 			roles.add(new SimpleGrantedAuthority("ROLE_USER"));
 		}
-		else
+		if(!role.equals("user") && !role.equals("admin"))
 			return new ModelAndView("userManagementNew").addObject("invalid_role", username);
 		
 		userRepository.save(new User(username, password, email, roles));
@@ -139,7 +148,7 @@ public class UserController {
 		return new ModelAndView("userManagement").addObject("deleted_user", username);
 	}
 	
-	@RequestMapping("/admin")
+/*	@RequestMapping("/admin")
 	public ModelAndView admin() {
 		if(userRepository.findByUsername("admin")!=null)
 			return new ModelAndView("login");
@@ -148,5 +157,5 @@ public class UserController {
 		User admin = new User("admin","admin","admin@videoclub.com",  Arrays.asList(roles));
 		userRepository.save(admin);
 		return new ModelAndView("login");
-	}
+	}*/
 }

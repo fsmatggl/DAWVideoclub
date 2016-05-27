@@ -15,9 +15,7 @@ import retrofit.RestAdapter;
 import daw.videoclub.model.Movie;
 import daw.videoclub.repository.MovieRepository;
 import daw.videoclub.rest.model.OMDbMovie;
-import daw.videoclub.rest.model.TrailersAPITrailer;
 import daw.videoclub.rest.services.OMDbService;
-import daw.videoclub.rest.services.TrailersAPIService;
 
 @Controller
 public class MovieController {
@@ -31,39 +29,8 @@ public class MovieController {
 		
 		if(m==null)
 			return new ModelAndView("search").addObject("found", false);
-		else{
-			RestAdapter omdbAdapter = new RestAdapter.Builder().setEndpoint("http://www.omdbapi.com/").build();
-			OMDbService omdbService = omdbAdapter.create(OMDbService.class);
-			OMDbMovie omdbMovie = omdbService.getOMDbMovie(title);
-			
-			RestAdapter trailersAPIAdapter = new RestAdapter.Builder().setEndpoint("http://trailersapi.com/").build();
-			TrailersAPIService trailersAPIService = trailersAPIAdapter.create(TrailersAPIService.class);
-			List<TrailersAPITrailer> trailers = trailersAPIService.getTrailers(title);
-			
-			if(m.getDescription()==null)
-				m.setDescription(omdbMovie.getPlot());
-			if(m.getYear()==null)
-				m.setYear(omdbMovie.getYear());
-			if(m.getDirector()==null)
-				m.setDirector(omdbMovie.getDirector());
-			if(m.getCast()==null){
-				List<String> castList = new LinkedList<String>();
-				for(String s :omdbMovie.getActors().split(",")){
-					castList.add(s);
-				}
-				m.setCast(castList);
-			}
-			if(m.getFront()==null)
-				m.setFront(omdbMovie.getPoster());
-			if(m.getRating()==null)
-				m.setRating(omdbMovie.getImdbRating());
-			if(m.getUrl()==null)
-				m.setUrl(trailers.get(0).getCode());
-			
-			movieRepository.save(m);
-			
+		else
 			return new ModelAndView("search").addObject("found", true).addObject("movie", m);
-		}
 	}
 	
 	@Secured({"ROLE_USER", "ROLE_ADMIN"})
@@ -117,8 +84,12 @@ public class MovieController {
 		if(name==null||url==null)
 			return new ModelAndView("movieManagementNew");
 		
-		if(name.equals("")||name.equals(""))
+		if(name.equals("")||url.equals(""))
 			return new ModelAndView("movieManagementNew").addObject("no_nameOrUrl");
+		
+		RestAdapter omdbAdapter = new RestAdapter.Builder().setEndpoint("http://www.omdbapi.com/").build();
+		OMDbService omdbService = omdbAdapter.create(OMDbService.class);
+		OMDbMovie omdbMovie = omdbService.getOMDbMovie(name);
 		
 		Movie m = movieRepository.findByName(name);
 		if(m!=null)
@@ -126,23 +97,46 @@ public class MovieController {
 		
 		m = new Movie(name, url);
 		
+		/* Adaptador REST para obtener trailers de películas
+		 * RestAdapter trailersAPIAdapter = new RestAdapter.Builder().setEndpoint("http://trailersapi.com/").build();
+		 * TrailersAPIService trailersAPIService = trailersAPIAdapter.create(TrailersAPIService.class);
+		 * List<TrailersAPITrailer> trailers = trailersAPIService.getTrailers(name);
+		 * m.setUrl(trailers.get(0).getCode());
+		 * */
+		
 		if(!description.equals(""))
 			m.setDescription(description);
+		else
+			m.setDescription(omdbMovie.getPlot());
 		if(!year.equals(""))
 			m.setYear(year);
+		else
+			m.setYear(omdbMovie.getYear());
 		if(!director.equals(""))
 			m.setDirector(director);
+		else
+			m.setDirector(omdbMovie.getDirector());
 		if(!cast.equals("")){
 			List<String> castList = new LinkedList<String>();
 			for(String s :cast.split(",")){
 				castList.add(s);
 			}
 			m.setCast(castList);
+		} else {
+			List<String> castList = new LinkedList<String>();
+			for(String s :omdbMovie.getActors().split(",")){
+				castList.add(s);
+			}
+			m.setCast(castList);
 		}
 		if(!front.equals(""))
 			m.setFront(front);
+		else
+			m.setFront(omdbMovie.getPoster());
 		if(!rating.equals(""))
 			m.setRating(rating);
+		else
+			m.setRating(omdbMovie.getImdbRating());
 			
 		movieRepository.save(m);
 		return new ModelAndView("movieManagementNew").addObject("created", name);
